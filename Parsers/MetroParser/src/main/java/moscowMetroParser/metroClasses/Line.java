@@ -1,4 +1,4 @@
-package moscowMetroParser.MetroClasses;
+package moscowMetroParser.metroClasses;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package moscowMetroParser.Parser;
+package moscowMetroParser.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class MetroParser {
+public class MetroParser implements Parser{
+
 
   private final Document document;
 
@@ -21,6 +22,7 @@ public class MetroParser {
     return document.select(cssQuery);
   }
 
+  @Override
   public List<String> getLineName(String cssQuery) {
     return getElementsByQuery(cssQuery).stream().map(Element::text).collect(Collectors.toList());
   }
@@ -31,6 +33,7 @@ public class MetroParser {
    *                линии</span>"
    * @return name of line
    */
+  @Override
   public String getLineNumber(String htmlTag) {
     int startShift = 6;
     int endShift = 9;
@@ -56,7 +59,7 @@ public class MetroParser {
 //  }
 
 
-  private String[] stationsNamesAndNumbers(String cssQuery) {
+  private String[] stationsContent(String cssQuery) {
     StringBuilder sb = new StringBuilder();
     Elements elements = getElementsByQuery(cssQuery);
     String REGEX = "\\d+.\\s[аА-яЯ]+"; // string must look like: 9. имя станции
@@ -73,7 +76,7 @@ public class MetroParser {
 
   public List<String[]> getStationsNames(String cssQuery) {
 
-    String[] stationsNamesAndNumbers = stationsNamesAndNumbers(cssQuery);
+    String[] stationsNamesAndNumbers = stationsContent(cssQuery);
     List<String[]> stationsNames = new ArrayList<>();
     String delimiter = "/";
     for (String stationsNamesAndNumber : stationsNamesAndNumbers) {
@@ -84,5 +87,21 @@ public class MetroParser {
     }
     return stationsNames;
   }
+
+
+  @Override
+  public String getStationName() {
+    return null;
+  }
+
+  @Override
+  public String getStationNumber() {
+    return null;
+  }
+
+
+
+
+
 
 }
