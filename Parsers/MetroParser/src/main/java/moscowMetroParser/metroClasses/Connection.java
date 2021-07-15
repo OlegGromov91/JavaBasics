@@ -1,6 +1,7 @@
 package moscowMetroParser.metroClasses;
 
-public class Connection extends MoscowMetro{
+
+public class Connection {
 
 
   private final int lineNumber;
@@ -12,9 +13,4 @@ public class Connection extends MoscowMetro{
   }
 
 
-
-  @Override
-  public int compareTo(MoscowMetro o) {
-    return 0;
-  }
 }

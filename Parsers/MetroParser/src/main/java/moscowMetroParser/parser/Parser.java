@@ -7,13 +7,13 @@ import org.jsoup.nodes.Document;
 
 public interface Parser {
 
-  String getStationName();
+  List<String[]> getStationsNames(String cssQueryStationContent);
 
-  String getStationNumber();
+  List<String[]> getStationNumber(String cssQueryStationContent);
 
   List<String> getLineName(String cssQuery);
 
-  String getLineNumber(String htmlTag);
+  List<String> getLineNumber(String cssQueryContent, String attributeNumber);
 
   default Document defaultConnection(String URL) throws IOException
   {

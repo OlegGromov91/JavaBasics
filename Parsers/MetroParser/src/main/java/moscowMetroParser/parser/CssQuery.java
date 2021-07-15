@@ -1,10 +1,10 @@
 package moscowMetroParser.parser;
 
 public enum CssQuery {
-  QUERY_LINE_NAME("span.js-metro-line"),
-  QUERY_LINE_NUMBER("span.js-metro-line"),
-  QUERY_STATION_NAME("div.js-depend p"),
-  QUERY_STATION_NUMBER("");
+  MAIN_QUERY_WITH_METRO_CONTENT(""),
+  QUERY_LINE_CONTENT("span.js-metro-line"),
+  ATTRIBUTE_LINE_NUMBER("data-line"),
+  QUERY_STATION_CONTENT("div.js-depend p");
 
   public final String identifier;
 

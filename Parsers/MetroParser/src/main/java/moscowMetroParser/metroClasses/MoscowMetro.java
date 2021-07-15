@@ -1,6 +1,15 @@
 package moscowMetroParser.metroClasses;
 
-public abstract class MoscowMetro implements Comparable<MoscowMetro>{
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class MoscowMetro {
+
+  private final List<Line> lineList= new ArrayList<>();
+
+
 
 
 }

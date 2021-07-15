@@ -1,34 +1,34 @@
 package moscowMetroParser.metroClasses;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class Station extends MoscowMetro{
+import java.util.List;
+import moscowMetroParser.metroClasses.contracts.MetroContent.MetroStation;
+import org.jetbrains.annotations.NotNull;
+
+public class Station implements MetroStation {
+
 
   private final String stationNUmber;
-  private final int stationName;
-  private List<Connection> connections = new ArrayList<>();
+  private final String stationName;
+  private List<Connection> connections;
 
 
-
-  public Station(String stationNUmber, int stationName)
-  {
+  public Station(String stationNUmber, String stationName) {
     this.stationNUmber = stationNUmber;
     this.stationName = stationName;
   }
 
-  public void addConnection(Connection connection)
-  {
-    connections.add(connection);
+
+  @Override
+  public int compareTo(@NotNull MetroStation o) {
+    return 0;
   }
 
-
+  public List<Connection> getConnections (){
+    return connections;
+  }
 
   // линия и название ветки
 
-    @Override
-    public int compareTo(MoscowMetro o) {
-      return 0;
-    }
 }
