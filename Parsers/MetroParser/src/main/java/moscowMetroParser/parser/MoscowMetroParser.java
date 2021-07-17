@@ -55,10 +55,9 @@ public class MoscowMetroParser implements Parser {
    */
   private String[] stationsContent(String cssQuery) {
     StringBuilder sb = new StringBuilder();
-    Elements elements = getElementsByQuery(cssQuery);
+    List<String> elements = getElementsByQuery(cssQuery).stream().map(Element::text).collect(Collectors.toList());
     String REGEX = "\\d+.\\s[аА-яЯ]+";
     String delimiterStations = elements.stream()
-        .map(Element::text)
         .filter(string -> !string.matches(REGEX))
         .limit(1)
         .collect(Collectors.joining())
