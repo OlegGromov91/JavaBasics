@@ -25,6 +25,7 @@ public class MoscowMetroParser implements Parser {
   @Override
   public List<String> getLineName(String cssQueryContent) {
     return getElementsByQuery(cssQueryContent).stream().map(Element::text)
+        .filter(name -> !name.isEmpty())
         .collect(Collectors.toList());
   }
 
@@ -32,6 +33,7 @@ public class MoscowMetroParser implements Parser {
   public List<String> getLineNumber(String cssQueryLineContent, String attributeNumber) {
     return getElementsByQuery(cssQueryLineContent).stream()
         .map(element -> element.attr(attributeNumber))
+        .filter(number -> !number.isEmpty())
         .collect(Collectors.toList());
   }
 
