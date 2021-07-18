@@ -9,7 +9,7 @@ public interface Parser {
 
   List<String[]> getStationsNames(String cssQueryStationContent);
 
-  List<String[]> getStationNumber(String cssQueryStationContent);
+  List<String[]> getStationsNumber(String cssQueryStationContent);
 
   List<String> getLineName(String cssQuery);
 

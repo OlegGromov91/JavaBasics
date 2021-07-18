@@ -42,28 +42,30 @@ public class MoscowMetroParser implements Parser {
   }
 
   @Override
-  public List<String[]> getStationNumber(String cssQueryStationContent) {
+  public List<String[]> getStationsNumber(String cssQueryStationContent) {
     return getStationPart("[\\D.]", cssQueryStationContent);
   }
 
 
   /**
-   * REGEX "\d+.\s[аА-яЯ]+" - stations content should look like: "9. имя станции", if not take this
+   * REGEX_NUM_NAME_STATIONS "\d+.\s[аА-яЯ]+" - stations content should look like: "9. имя станции", if not take this
    * as a separator
-   *
+   * delimiterStations usually its "Подробно о линии"
    * @return String as array, with number and station name splited by @delimiterStations
    */
   private String[] stationsContent(String cssQuery) {
     StringBuilder sb = new StringBuilder();
-    List<String> elements = getElementsByQuery(cssQuery).stream().map(Element::text).collect(Collectors.toList());
-    String REGEX = "\\d+.\\s[аА-яЯ]+";
+    List<String> elements = getElementsByQuery(cssQuery).stream().map(Element::text)
+        .collect(Collectors.toList());
+    String REGEX_NUM_NAME_STATIONS = "\\d+.\\s[аА-яЯ]+";
     String delimiterStations = elements.stream()
-        .filter(string -> !string.matches(REGEX))
+        .filter(string -> !string.matches(REGEX_NUM_NAME_STATIONS))
         .limit(1)
         .collect(Collectors.joining())
         .trim();
     elements.forEach(i -> sb.append(i).append(DELIMITER));
-    return sb.toString().split(delimiterStations);
+    return Arrays.stream(sb.toString().split(delimiterStations))
+        .filter(filterEmptyContent -> filterEmptyContent.length() > 1).toArray(String[]::new);
   }
 
   /**
@@ -77,10 +79,12 @@ public class MoscowMetroParser implements Parser {
     for (String stationsNamesAndNumber : stationsContent) {
       String[] names = Arrays.stream(stationsNamesAndNumber.split(DELIMITER))
           .map(content -> content.replaceAll(regexp, "").trim())
+          .filter(content -> !content.isEmpty())
           .toArray(String[]::new);
       stationsNames.add(names);
     }
     return stationsNames;
   }
+
 
 }
