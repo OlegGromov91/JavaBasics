@@ -65,7 +65,7 @@ class MetroParserTest extends MoscowMetroParserAttr {
 
   //  GENERAL.forEach(i-> System.out.println(i.select("div.js-depend p")));
    // System.out.println(GENERAL.get(GENERAL.size()-1).attr("data-depend-set").replaceAll("lines-",""));
-
+/**
     for (Element element : GENERAL) {
       String lineNmae = element
           .attr("data-depend-set").replaceAll("lines-", "");
@@ -75,13 +75,53 @@ class MetroParserTest extends MoscowMetroParserAttr {
         Map<String, Elements> elementMap = new HashMap<>();
         elementMap.put(value.select("span.name").text(),
             value.select("span.t-icon-metroln"));
-        elementMap = elementMap.entrySet().stream().filter(e -> e.getValue().size() > 0)
-            .collect(Collectors.toMap(
-                Entry::getKey, Entry::getValue));
+//        elementMap = elementMap.entrySet().stream().filter(e -> e.getValue().size() > 0)
+//            .collect(Collectors.toMap(
+//                Entry::getKey, Entry::getValue));
         System.out.println(elementMap);
       }
 
     }
+ */
+    //elements.forEach(i -> System.out.println(i.select("span.t-icon-metroln")));
+
+   //GENERAL.forEach(i -> System.out.println(i));
+    System.out.println(GENERAL.size());
+
+   // System.out.println(GENERAL.get(0).select("p").select("span.t-icon-metroln"));
+    List<String> stringList = new ArrayList<>();
+
+  Elements elements1 = GENERAL.get(0).select("p");
+
+//    for (int i = 0; i < GENERAL.select("p").size(); i++) {
+//      System.out.println(GENERAL.get(i).getElementsByAttribute("title"));
+//      System.out.println("_____________________________");
+//    }
+
+    for (int i = 0; i < GENERAL.size(); i++) {
+      System.out.println("Line " + (i+1));
+      Elements el = GENERAL.get(i).select("p");
+      System.out.println(GENERAL.get(i).attr("data-depend-set").replaceAll("lines-", ""));
+      for (Element element : el) {
+        if (element.getElementsByAttribute("title").size() != 0) {
+          System.out.println("___________________");
+          System.out.println(element.select("span.name").text());
+          System.out.println(element.getElementsByAttribute("title"));
+          System.out.println("___________________");
+        }
+      }
+    }
+
+
+
+  /**
+   * get all attribute!!!!!!
+    System.out.println(GENERAL.get(0).select("p").get(6).getElementsByAttribute("title"));
+*/
+//    System.out.println(stringList.size());
+//    stringList.forEach(System.out::println);
+
+   // System.out.println(GENERAL.get(0).select("p"));
 
 //    for (String key: conn.keySet()
 //    ) {
@@ -119,9 +159,10 @@ class MetroParserTest extends MoscowMetroParserAttr {
 
 //<span class="js-metro-line t-metrostation-list-header t-icon-metroln ln-1" data-line="1">Сокольническая линия</span>
 //<span class="t-icon-metroln ln-14" title="переход на станцию «Бульвар Рокоссовского» МЦК"></span>
-    System.out.println( elements.get(0).attr("title"));
-    System.out.println( elements.get(1).attr("title"));
-    System.out.println( elements.get(7).attributes());
+
+//    System.out.println( elements.get(0).attr("title"));
+//    System.out.println( elements.get(1).attr("title"));
+//    System.out.println( elements.get(7).attributes());
 
 //   elements
 //       .stream().map(Element::text).forEach(System.out::println);
