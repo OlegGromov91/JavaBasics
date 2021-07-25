@@ -18,6 +18,7 @@ public class MoscowMetroParserAttr {
   private final static File htmlFIle = new File("src/test/java/testHTML/test.html");
   protected final Document testDocument = Jsoup.parse(htmlFIle, "UTF8");
   protected final Parser parser = new MoscowMetroParser(testDocument);
+  protected final MoscowMetroParser moscowMetroParser = new MoscowMetroParser(testDocument);
 
   //Калужско-Рижская линия
   protected final String[] testStationsNames = new String[]{

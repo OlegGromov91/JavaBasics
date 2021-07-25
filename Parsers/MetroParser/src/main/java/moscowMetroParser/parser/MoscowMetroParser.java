@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.print.DocFlavor.READER;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -50,9 +51,9 @@ public class MoscowMetroParser implements Parser {
 
 
   /**
-   * REGEX_NUM_NAME_STATIONS "\d+.\s[аА-яЯ]+" - stations content should look like: "9. имя станции", if not take this
-   * as a separator
-   * delimiterStations usually its "Подробно о линии"
+   * REGEX_NUM_NAME_STATIONS "\d+.\s[аА-яЯ]+" - stations content should look like: "9. имя станции",
+   * if not take this as a separator delimiterStations usually its "Подробно о линии"
+   *
    * @return String as array, with number and station name splited by @delimiterStations
    */
   private String[] stationsContent(String cssQuery) {
@@ -86,6 +87,54 @@ public class MoscowMetroParser implements Parser {
       stationsNames.add(names);
     }
     return stationsNames;
+  }
+
+
+  public List<String> getConnections(String connections_query) {
+    List<String> connetcions = new ArrayList<>();
+    List<String> parseConnectionsResult = parseConnections(connections_query);
+    StringBuilder stringBuilder = new StringBuilder();
+    for (String value : parseConnectionsResult) {
+      String line = value.split("!")[0];
+      String[] connectionsArray = value
+          .substring(value.indexOf("!")).split("<span");
+      String connectionsHtmlFormat = Arrays.stream(connectionsArray).filter(s -> s.length() > 1)
+          .map(this::getConnectionContent)
+          .collect(Collectors.joining("/"));
+      connetcions.add(stringBuilder.append(line).append(":").append(connectionsHtmlFormat).toString());
+      stringBuilder.delete(0, Integer.MAX_VALUE);
+    }
+
+    return connetcions;
+  }
+
+  private List<String> parseConnections(String connections_query) {
+    Elements connections = getElementsByQuery(connections_query);
+    List<String> parseConnectionsResult = new ArrayList<>();
+
+    for (Element connection : connections) {
+      Elements connectionElements = connection.select("p");
+      for (Element stationWithConnections : connectionElements) {
+        if (stationWithConnections.getElementsByAttribute("title").size() != 0) {
+          StringBuilder stringBuilder = new StringBuilder();
+          stringBuilder.append(connection.attr("data-depend-set").replaceAll("lines-", ""))
+              .append(" ")
+              .append(stationWithConnections.select("span.name").text())
+              .append("!")
+              .append(stationWithConnections.getElementsByAttribute("title"));
+          parseConnectionsResult.add(stringBuilder.toString());
+        }
+      }
+    }
+    return parseConnectionsResult;
+  }
+
+
+  private String getConnectionContent(String content) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(content.replaceAll("\\D", "")).append(" ");
+    sb.append(content, content.indexOf("«") + 1, content.indexOf("»"));
+    return sb.toString();
   }
 
 

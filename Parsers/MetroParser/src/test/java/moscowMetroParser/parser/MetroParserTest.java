@@ -50,122 +50,99 @@ class MetroParserTest extends MoscowMetroParserAttr {
   void getLineNumber() {
 
 
-    // line numbers
 
-
-//t-icon-metroln   "span.js-metro-line"
-    ///<span class="t-icon-metroln ln-14" title="переход на станцию «Бульвар Рокоссовского» МЦК"></span>
-
-  Elements GENERAL = testDocument.select("div.js-depend");
-   // span.t-icon-metroln
-  Elements elements = testDocument.select("div.js-depend p");
-    Map<String,Map<String,Elements>> conn = new HashMap<>();
-//    String [] lineNumbers = GENERAL.stream().map(element -> element.attr("data-line"))
-//        .filter(number -> !number.isEmpty()).toArray(String[]::new);
-
-  //  GENERAL.forEach(i-> System.out.println(i.select("div.js-depend p")));
-   // System.out.println(GENERAL.get(GENERAL.size()-1).attr("data-depend-set").replaceAll("lines-",""));
-/**
-    for (Element element : GENERAL) {
-      String lineNmae = element
-          .attr("data-depend-set").replaceAll("lines-", "");
-      System.out.println("\n" + lineNmae + "\n");
-      for (Element value : elements) {
-        //System.out.println(elements.get(j).select("span.name").text() + " = " + elements.get(j).select("span.t-icon-metroln").attr("title"));
-        Map<String, Elements> elementMap = new HashMap<>();
-        elementMap.put(value.select("span.name").text(),
-            value.select("span.t-icon-metroln"));
-//        elementMap = elementMap.entrySet().stream().filter(e -> e.getValue().size() > 0)
-//            .collect(Collectors.toMap(
-//                Entry::getKey, Entry::getValue));
-        System.out.println(elementMap);
-      }
-
-    }
- */
-    //elements.forEach(i -> System.out.println(i.select("span.t-icon-metroln")));
-
-   //GENERAL.forEach(i -> System.out.println(i));
-    System.out.println(GENERAL.size());
-
-   // System.out.println(GENERAL.get(0).select("p").select("span.t-icon-metroln"));
-    List<String> stringList = new ArrayList<>();
-
-  Elements elements1 = GENERAL.get(0).select("p");
-
-//    for (int i = 0; i < GENERAL.select("p").size(); i++) {
-//      System.out.println(GENERAL.get(i).getElementsByAttribute("title"));
-//      System.out.println("_____________________________");
-//    }
-
+/*
+    Map<String, Map<String, Elements>> connections = new TreeMap<>();
+    //* its work
     for (int i = 0; i < GENERAL.size(); i++) {
-      System.out.println("Line " + (i+1));
+      //System.out.println("Line " + (i+1));
       Elements el = GENERAL.get(i).select("p");
-      System.out.println(GENERAL.get(i).attr("data-depend-set").replaceAll("lines-", ""));
+      // System.out.println(GENERAL.get(i).attr("data-depend-set").replaceAll("lines-", ""));
+      Map<String, Elements> connect = new HashMap<>();
       for (Element element : el) {
         if (element.getElementsByAttribute("title").size() != 0) {
-          System.out.println("___________________");
-          System.out.println(element.select("span.name").text());
-          System.out.println(element.getElementsByAttribute("title"));
-          System.out.println("___________________");
+
+          connect.put(element.select("span.name").text(), element.getElementsByAttribute("title"));
+        }
+      }
+      connections.put(GENERAL.get(i).attr("data-depend-set").replaceAll("lines-", ""), connect);
+    }
+
+
+    for (String lineNumber : connections.keySet()
+    ) {
+      System.out.println("\n" + lineNumber);
+      Set<List<String>> lists = new HashSet<>();
+      for (String station : connections.get(lineNumber).keySet()
+      ) {
+        System.out.println("\n" + station);
+        System.out.println(connections.get(lineNumber).get(station));
+        List<String> stringList = connections.get(lineNumber).get(station).stream().map(moscowMetroParser::getConnectionContent).collect(
+            Collectors.toList());
+        lists.add(stringList);
+      }
+
+      }
+*/
+   /*
+    List<String > st = new ArrayList<>();
+    Map<String, Elements> connect = new TreeMap<>();
+    //Map<List<String>, Elements> connect = new HashMap<>();
+    for (int i = 0; i < GENERAL.size(); i++) {
+      Elements el = GENERAL.get(i).select("p");
+      List<String> strings = new ArrayList<>();
+      for (Element element : el) {
+        if (element.getElementsByAttribute("title").size() != 0) {
+          StringBuilder stringBuilder = new StringBuilder();
+          stringBuilder.append(GENERAL.get(i).attr("data-depend-set").replaceAll("lines-", ""))
+              .append(" ")
+              .append(element.select("span.name").text())
+              .append("!")
+              .append(element.getElementsByAttribute("title"));
+
+
+          st.add(stringBuilder.toString());
+
+
+          connect.put(GENERAL.get(i).attr("data-depend-set").replaceAll("lines-", "").
+                  concat(" ")
+                  .concat(
+                      element.select("span.name").text()
+                  ),
+              element.getElementsByAttribute("title"));
         }
       }
     }
-
-
-
-  /**
-   * get all attribute!!!!!!
-    System.out.println(GENERAL.get(0).select("p").get(6).getElementsByAttribute("title"));
 */
-//    System.out.println(stringList.size());
-//    stringList.forEach(System.out::println);
-
-   // System.out.println(GENERAL.get(0).select("p"));
-
-//    for (String key: conn.keySet()
-//    ) {
-//      System.out.println(key);
-//      System.out.println(conn.values());
-//    }
-
-  // Arrays.stream(lineNumbers).forEach(System.out::println);
-
-//    elementMap = elementMap.entrySet().stream().filter(e-> e.getValue().size()>0).collect(Collectors.toMap(
-//        Entry::getKey,Entry::getValue));
-
-    //elementMap.forEach((k,v) -> System.out.println("key " + k + " value " + v));
-
-   // System.out.println(elementMap);
- // elements.forEach(System.out::println);
 
 
+/*
+    Elements GENERAL = testDocument.select("div.js-depend");
+    List<String > st = new ArrayList<>();
+    for (int i = 0; i < GENERAL.size(); i++) {
+      Elements el = GENERAL.get(i).select("p");
+      for (Element element : el) {
+        if (element.getElementsByAttribute("title").size() != 0) {
+          StringBuilder stringBuilder = new StringBuilder();
+          stringBuilder.append(GENERAL.get(i).attr("data-depend-set").replaceAll("lines-", ""))
+              .append(" ")
+              .append(element.select("span.name").text())
+              .append("!")
+          .append(element.getElementsByAttribute("title"));
+         st.add(stringBuilder.toString());
+        }
+      }
+    }
+*/
 
 
-
-    System.out.println("_____________\n");
-
- //  Elements elements = testDocument.select("div.js-depend p");
- // elements.forEach(System.out::println);
-    System.out.println("_____________\n");
-
-//    System.out.println(elements.get(1).select("span.t-icon-metroln").attr("title"));
-//    System.out.println(elements.get(1));
-
- //  elements.forEach(i -> System.out.println(i.attr("title")));
-    System.out.println("______");
-//    System.out.println(elements.get(3).attributes().asList().get(0).getValue());
+    moscowMetroParser.getConnections(CssQuery.QUERY_CONNECTIONS.identifier).forEach(System.out::println);
 
 
-//<span class="js-metro-line t-metrostation-list-header t-icon-metroln ln-1" data-line="1">Сокольническая линия</span>
-//<span class="t-icon-metroln ln-14" title="переход на станцию «Бульвар Рокоссовского» МЦК"></span>
-
-//    System.out.println( elements.get(0).attr("title"));
-//    System.out.println( elements.get(1).attr("title"));
-//    System.out.println( elements.get(7).attributes());
-
-//   elements
-//       .stream().map(Element::text).forEach(System.out::println);
+    /**
+     * get all attribute!!!!!!
+     System.out.println(GENERAL.get(0).select("p").get(6).getElementsByAttribute("title"));
+     */
 
   }
 
@@ -198,7 +175,8 @@ class MetroParserTest extends MoscowMetroParserAttr {
       String actualStation = testStationsNumbers[randomStationNumber].toLowerCase(
           Locale.ROOT);
       Assertions.assertEquals(expectedStation,
-          actualStation, "in line of number D2 (МЦД-2) should be " + testStationsNumbers.length + " stations");
+          actualStation,
+          "in line of number D2 (МЦД-2) should be " + testStationsNumbers.length + " stations");
     }
   }
 }
