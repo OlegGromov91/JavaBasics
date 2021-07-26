@@ -18,7 +18,7 @@ class CssQueryTest {
   void cssEqualsValues()
   {
 
-  String [] enumArray = Arrays.stream(CssQuery.values()).map(s -> s.identifier).toArray(String[]::new);
+  String [] enumArray = Arrays.stream(CssQuery.values()).map(CssQuery::getIdentifier).toArray(String[]::new);
   Arrays.stream(enumArray).forEach(System.out::println);
   }
 }

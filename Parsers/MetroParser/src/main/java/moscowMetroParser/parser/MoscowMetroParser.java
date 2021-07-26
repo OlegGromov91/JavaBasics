@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.print.DocFlavor.READER;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -51,6 +50,33 @@ public class MoscowMetroParser implements Parser {
 
 
   /**
+   * @param connections_query @see CssQuery.QUERY_CONNECTIONS.getIdentifier() method cuting line
+   *                          number from string, then split raw connections, and parse it in
+   *                          readably view
+   * @return builded string like - "lineNumber station: line number station connection
+   */
+  @Override
+  public List<String> getConnections(String connections_query) {
+
+    List<String> connections = new ArrayList<>();
+    List<String> parseConnectionsResult = parseConnections(connections_query);
+    StringBuilder stringBuilder = new StringBuilder();
+    for (String value : parseConnectionsResult) {
+      String line = value.split("!")[0];
+      String[] connectionsArray = value
+          .substring(value.indexOf("!")).split("<span");
+      String connectionsHtmlFormat = Arrays.stream(connectionsArray).filter(s -> s.length() > 1)
+          .map(this::getConnectionContent)
+          .collect(Collectors.joining("/"));
+      connections
+          .add(stringBuilder.append(line).append(":").append(connectionsHtmlFormat).toString());
+      stringBuilder.delete(0, Integer.MAX_VALUE);
+    }
+    return connections;
+  }
+
+
+  /**
    * REGEX_NUM_NAME_STATIONS "\d+.\s[аА-яЯ]+" - stations content should look like: "9. имя станции",
    * if not take this as a separator delimiterStations usually its "Подробно о линии"
    *
@@ -90,24 +116,11 @@ public class MoscowMetroParser implements Parser {
   }
 
 
-  public List<String> getConnections(String connections_query) {
-    List<String> connetcions = new ArrayList<>();
-    List<String> parseConnectionsResult = parseConnections(connections_query);
-    StringBuilder stringBuilder = new StringBuilder();
-    for (String value : parseConnectionsResult) {
-      String line = value.split("!")[0];
-      String[] connectionsArray = value
-          .substring(value.indexOf("!")).split("<span");
-      String connectionsHtmlFormat = Arrays.stream(connectionsArray).filter(s -> s.length() > 1)
-          .map(this::getConnectionContent)
-          .collect(Collectors.joining("/"));
-      connetcions.add(stringBuilder.append(line).append(":").append(connectionsHtmlFormat).toString());
-      stringBuilder.delete(0, Integer.MAX_VALUE);
-    }
-
-    return connetcions;
-  }
-
+  /**
+   * @param connections_query @see CssQuery.QUERY_CONNECTIONS.getIdentifier()
+   * @return raw connections list with line number + station name + connections in raw view @see
+   * getConnectionContent(String content) @param content
+   */
   private List<String> parseConnections(String connections_query) {
     Elements connections = getElementsByQuery(connections_query);
     List<String> parseConnectionsResult = new ArrayList<>();
@@ -129,7 +142,12 @@ public class MoscowMetroParser implements Parser {
     return parseConnectionsResult;
   }
 
-
+  /**
+   * @param content is string in raw view "<span class=\"t-icon-metroln ln-5\" title=\"переход на
+   *                станцию «Комсомольская» Кольцевой линии\"></span>" method get number, and line
+   *                name, and
+   * @return string like "5 Комсомольская"
+   */
   private String getConnectionContent(String content) {
     StringBuilder sb = new StringBuilder();
     sb.append(content.replaceAll("\\D", "")).append(" ");

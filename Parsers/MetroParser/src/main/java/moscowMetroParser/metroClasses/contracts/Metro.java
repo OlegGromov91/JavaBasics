@@ -1,9 +1,7 @@
 package moscowMetroParser.metroClasses.contracts;
 
 
-import moscowMetroParser.metroClasses.contracts.MetroContent.MetroLine;
-
-public interface Metro {
+public interface Metro extends AbstractMetro{
 
   void addLine(MetroLine line);
 }

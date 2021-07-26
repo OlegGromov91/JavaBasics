@@ -15,6 +15,8 @@ public interface Parser {
 
   List<String> getLineNumber(String cssQueryContent, String attributeNumber);
 
+  List<String> getConnections(String connections_query);
+
   default Document defaultConnection(String URL) throws IOException
   {
     return Jsoup.connect(URL)

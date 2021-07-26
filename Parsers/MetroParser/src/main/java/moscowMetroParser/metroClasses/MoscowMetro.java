@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MoscowMetro {
 
-  private final List<Line> lineList= new ArrayList<>();
+  private final List<Line> lineList = new ArrayList<>();
 
 
 
