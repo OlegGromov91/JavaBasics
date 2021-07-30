@@ -3,8 +3,10 @@ package moscowMetro.metroUtils.parser;
 
 import ParserAttribute.MoscowMetroParserAttr;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,18 +40,11 @@ class MetroParserTest extends MoscowMetroParserAttr {
   void getLineNumber() {
 
 
-    List<String> connections = parser.getConnections(CssQuery.QUERY_CONNECTIONS.getIdentifier());
+    Map<String, String[]> connections = parser.getConnections(CssQuery.QUERY_CONNECTIONS.getIdentifier());
 
-   connections.forEach(System.out::println);
+   connections.forEach((k,v)-> System.out.println(k + " " + Arrays.toString(v)));
 
 
-//    String rehex = "(ln-|\")";
-//
-//    String match = "11A Комсомольская:5 Комсомольская/D2 Каланчёвская";
-//    String match2 = "<span class=\"t-icon-metroln ln-11A\" title=\"переход на станцию «Комсомольская» Кольцевой линии\"></span>";
-//
-//    Arrays.stream(match2.split(" ")).filter(i -> i.contains("ln-")).map(str -> str.replaceAll(rehex, ""))
-//    .forEach(System.out::println);
 
 
 
