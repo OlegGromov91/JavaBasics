@@ -156,9 +156,6 @@ public class MoscowMetroParser implements Parser {
     String name = content.substring(content.indexOf("«") + 1, content.indexOf("»"));
     sb.append(number).append(" ").append(name);
     return sb.toString();
-
-
-
   }
 
 

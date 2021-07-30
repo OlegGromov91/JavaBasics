@@ -2,21 +2,10 @@ package moscowMetro.metroUtils.parser;
 
 
 import ParserAttribute.MoscowMetroParserAttr;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import moscowMetro.metroClasses.Connection;
-import moscowMetro.metroClasses.Line;
-import moscowMetro.metroClasses.MoscowMetro;
-import moscowMetro.metroClasses.Station;
-import moscowMetro.metroClasses.contracts.MetroConnection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
