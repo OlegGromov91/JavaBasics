@@ -1,7 +1,7 @@
 package moscowMetro.metroUtils.parser;
 
 public enum CssQuery {
-  MAIN_QUERY_WITH_METRO_CONTENT(""),
+
   QUERY_LINE_CONTENT("span.js-metro-line"),
   QUERY_CONNECTIONS("div.js-depend"),
   ATTRIBUTE_LINE_NUMBER("data-line"),

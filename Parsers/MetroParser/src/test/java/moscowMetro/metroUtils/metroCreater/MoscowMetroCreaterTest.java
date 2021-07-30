@@ -96,8 +96,9 @@ class MoscowMetroCreaterTest extends MoscowMetroAttr {
 
 //    Arrays.stream(s.split("\n")).forEach(System.out::println);
     JsonCreater jsonCreater = new JsonCreater(moscowMetroCreater.autoCreate());
-    jsonCreater.createJsonFile();
-
+     jsonCreater.printJsonFile();
+    //System.out.println(jsonCreater.createJsonFile("src/main/resources","metroMoscow.txt"));
+    //"src/main/resources/metroMoscow.txt"
   }
 
 }

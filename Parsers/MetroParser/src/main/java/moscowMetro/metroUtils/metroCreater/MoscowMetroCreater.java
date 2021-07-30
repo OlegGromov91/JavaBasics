@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import moscowMetro.metroClasses.Connection;
 import moscowMetro.metroClasses.Line;
 import moscowMetro.metroClasses.MoscowMetro;
-import moscowMetro.metroClasses.contracts.AbstractMetro;
 import moscowMetro.metroUtils.parser.CssQuery;
 import moscowMetro.metroUtils.parser.Parser;
 
@@ -23,13 +22,13 @@ import moscowMetro.metroUtils.parser.Parser;
 public class MoscowMetroCreater {
 
   private final Parser parser;
+  private static final String DELIMITER = ":";
 
   public MoscowMetroCreater(Parser parser) {
     this.parser = parser;
   }
 
-
-  public final AbstractMetro autoCreate() {
+  public final MoscowMetro autoCreate() {
     return new MoscowMetro(
         this.createStations(),
         this.createConnections(),
@@ -60,6 +59,14 @@ public class MoscowMetroCreater {
     return lines;
   }
 
+  /**
+   * In method, loops work with "major connection key" and "minor connections values" for abstract
+   * example : key - "1:Черкизовская" values - {"14:Локомотив", "5:Комсомольская"}. DELIMITER is ":"
+   * Set<Connection> sortedConnections need for sort major and minor connections by hashCode, and
+   * then put it in non duplicated set.
+   *
+   * @return no duplicate connections
+   */
   public Set<Set<Connection>> createConnections() {
     Set<Set<Connection>> noDuplicateConnections = new LinkedHashSet<>();
     Map<String, String[]> parsedConnections = parser
@@ -67,12 +74,12 @@ public class MoscowMetroCreater {
 
     for (String key : parsedConnections.keySet()
     ) {
-      String[] keyParts = key.split(":");
+      String[] keyParts = key.split(DELIMITER);
       Connection majorConnection = new Connection(keyParts[0], keyParts[1]);
 
       for (String value : parsedConnections.get(key)
       ) {
-        String[] valueParts = value.split(":");
+        String[] valueParts = value.split(DELIMITER);
         Connection minorConnections = new Connection(valueParts[0], valueParts[1]);
         Set<Connection> connectionSet = new LinkedHashSet<>();
         connectionSet.add(majorConnection);
@@ -85,6 +92,5 @@ public class MoscowMetroCreater {
     }
     return noDuplicateConnections;
   }
-
 
 }
