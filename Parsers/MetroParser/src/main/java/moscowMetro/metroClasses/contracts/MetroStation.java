@@ -1,4 +1,4 @@
-package moscowMetroParser.metroClasses.contracts;
+package moscowMetro.metroClasses.contracts;
 
 import java.util.List;
 

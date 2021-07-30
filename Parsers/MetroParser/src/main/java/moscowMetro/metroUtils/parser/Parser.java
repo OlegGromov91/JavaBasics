@@ -1,4 +1,4 @@
-package moscowMetroParser.parser;
+package moscowMetro.metroUtils.parser;
 
 import java.io.IOException;
 import java.util.List;

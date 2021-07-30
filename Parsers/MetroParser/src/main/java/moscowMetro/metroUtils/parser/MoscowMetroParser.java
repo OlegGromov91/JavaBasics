@@ -1,4 +1,4 @@
-package moscowMetroParser.parser;
+package moscowMetro.metroUtils.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 public class MoscowMetroParser implements Parser {
 
   private final Document document;
-  private static final String DELIMITER = "/";
+  private static final String DELIMITER_STATION = "/";
 
 
   public MoscowMetroParser(Document document) {
@@ -50,9 +50,7 @@ public class MoscowMetroParser implements Parser {
 
 
   /**
-   * @param connections_query @see CssQuery.QUERY_CONNECTIONS.getIdentifier() method cuting line
-   *                          number from string, then split raw connections, and parse it in
-   *                          readably view
+   * @param connections_query @see CssQuery.QUERY_CONNECTIONS.getIdentifier()
    * @return builded string like - "lineNumber station: line number station connection
    */
   @Override
@@ -92,7 +90,7 @@ public class MoscowMetroParser implements Parser {
         .limit(1)
         .collect(Collectors.joining())
         .trim();
-    elements.forEach(i -> sb.append(i).append(DELIMITER));
+    elements.forEach(i -> sb.append(i).append(DELIMITER_STATION));
     return Arrays.stream(sb.toString().split(delimiterStations))
         .filter(filterEmptyContent -> filterEmptyContent.length() > 1).toArray(String[]::new);
   }
@@ -106,7 +104,7 @@ public class MoscowMetroParser implements Parser {
     String[] stationsContent = stationsContent(cssQuery);
     List<String[]> stationsNames = new ArrayList<>();
     for (String stationsNamesAndNumber : stationsContent) {
-      String[] names = Arrays.stream(stationsNamesAndNumber.split(DELIMITER))
+      String[] names = Arrays.stream(stationsNamesAndNumber.split(DELIMITER_STATION))
           .map(content -> content.replaceAll(regexp, "").trim())
           .filter(content -> !content.isEmpty())
           .toArray(String[]::new);
@@ -150,9 +148,17 @@ public class MoscowMetroParser implements Parser {
    */
   private String getConnectionContent(String content) {
     StringBuilder sb = new StringBuilder();
-    sb.append(content.replaceAll("\\D", "")).append(" ");
-    sb.append(content, content.indexOf("«") + 1, content.indexOf("»"));
+    String NUMBER_REGEX = "(ln-|\")";
+    String number = Arrays.stream(content.split(" "))
+        .filter(i -> i.contains("ln-"))
+        .map(str -> str.replaceAll(NUMBER_REGEX, ""))
+        .collect(Collectors.joining());
+    String name = content.substring(content.indexOf("«") + 1, content.indexOf("»"));
+    sb.append(number).append(" ").append(name);
     return sb.toString();
+
+
+
   }
 
 

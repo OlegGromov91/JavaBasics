@@ -1,4 +1,4 @@
-package moscowMetroParser.parser;
+package moscowMetro.metroUtils.parser;
 
 public enum CssQuery {
   MAIN_QUERY_WITH_METRO_CONTENT(""),

@@ -3,13 +3,10 @@ package ParserAttribute;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import moscowMetroParser.parser.CssQuery;
-import moscowMetroParser.parser.MoscowMetroParser;
-import moscowMetroParser.parser.Parser;
+
+import moscowMetro.metroUtils.parser.MoscowMetroParser;
+import moscowMetro.metroUtils.parser.Parser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

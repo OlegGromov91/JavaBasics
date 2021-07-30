@@ -1,20 +1,34 @@
-package moscowMetroParser.metroClasses;
+package moscowMetro.metroClasses;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import moscowMetroParser.metroClasses.contracts.MetroLine;
-import moscowMetroParser.metroClasses.contracts.MetroStation;
+import moscowMetro.metroClasses.contracts.MetroLine;
+import moscowMetro.metroClasses.contracts.MetroStation;
 
-public class Line implements MetroLine {
+public class Line  implements MetroLine{
 
-  private final String lineNUmber;
-  private final String lineName;
+  private final String number;
+  private final String name;
+
+  /**
+   * gsonBuilder.addSerializationExclusionStrategy(new ExclusionStrategy() {
+   *       @Override
+   *       public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+   *         return fieldAttributes.getName().contains("stations");
+   *       }
+   *
+   *       @Override
+   *       public boolean shouldSkipClass(Class<?> aClass) {
+   *         return false;
+   *       }
+   *     });
+   */
   private final List<MetroStation> stations = new ArrayList<>();
 
   public Line(String lineNumber, String lineName) {
-    this.lineNUmber = lineNumber;
-    this.lineName = lineName;
+    this.number = lineNumber;
+    this.name = lineName;
   }
 
   @Override
@@ -32,8 +46,8 @@ public class Line implements MetroLine {
   @Override
   public String toString() {
     return "Line{" +
-        "lineNUmber='" + lineNUmber + '\'' +
-        ", lineName=" + lineName +
+        "lineNUmber='" + number + '\'' +
+        ", lineName=" + name +
         ", stations=" + stations +
         '}';
   }
@@ -46,20 +60,20 @@ public class Line implements MetroLine {
       return false;
     }
     Line line = (Line) o;
-    return lineName == line.lineName && lineNUmber.equals(line.lineNUmber) && stations
+    return name == line.name && number.equals(line.number) && stations
         .equals(line.stations);
   }
   @Override
   public int hashCode() {
-    return Objects.hash(lineNUmber, lineName, stations);
+    return Objects.hash(number, name, stations);
   }
 
   public String getLineNUmber() {
-    return lineNUmber;
+    return number;
   }
 
   public String getLineName() {
-    return lineName;
+    return name;
   }
 
   public List<MetroStation> getStations() {
