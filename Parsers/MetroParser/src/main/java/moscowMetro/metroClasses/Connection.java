@@ -2,9 +2,10 @@ package moscowMetro.metroClasses;
 
 
 import java.util.Objects;
-import moscowMetro.metroClasses.contracts.MetroConnection;
+import moscowMetro.metroClasses.contracts.Metro;
 
-public class Connection implements MetroConnection {
+
+public class Connection implements Metro {
 
 
   private final String line;
@@ -13,17 +14,6 @@ public class Connection implements MetroConnection {
   public Connection(String lineNumber, String stationName) {
     this.line = lineNumber;
     this.station = stationName;
-
-
-  }
-
-
-  @Override
-  public String toString() {
-    return "Connection{" +
-        "line='" + line + '\'' +
-        ", station='" + station + '\'' +
-        '}';
   }
 
   @Override
@@ -43,6 +33,14 @@ public class Connection implements MetroConnection {
     return Objects.hash(line, station);
   }
 
+  @Override
+  public String toString() {
+    return "Connection{" +
+        "line='" + line + '\'' +
+        ", station='" + station + '\'' +
+        '}';
+  }
+
   public String getLine() {
     return line;
   }
@@ -50,4 +48,5 @@ public class Connection implements MetroConnection {
   public String getStation() {
     return station;
   }
+
 }

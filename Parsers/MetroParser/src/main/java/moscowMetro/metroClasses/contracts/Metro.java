@@ -1,7 +1,7 @@
 package moscowMetro.metroClasses.contracts;
 
+import java.io.Serializable;
 
-public interface Metro extends AbstractMetro{
+public interface Metro extends Serializable {
 
-  void addLine(MetroLine line);
 }

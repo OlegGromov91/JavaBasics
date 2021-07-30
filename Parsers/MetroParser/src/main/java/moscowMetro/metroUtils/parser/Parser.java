@@ -18,13 +18,11 @@ public interface Parser {
 
   Map<String, String[]> getConnections(String connections_query);
 
-  default Document defaultConnection(String URL) throws IOException
-  {
+  default Document defaultConnection(String URL) throws IOException {
     return Jsoup.connect(URL)
         .maxBodySize(0)
         .get();
   }
-
 
 
 }

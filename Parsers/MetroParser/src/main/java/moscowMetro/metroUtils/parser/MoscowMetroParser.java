@@ -53,19 +53,20 @@ public class MoscowMetroParser implements Parser {
 
   /**
    * @param connections_query @see CssQuery.QUERY_CONNECTIONS.getIdentifier()
-   * @return build map where key is "lineNumber:station" and value is array of "lineNumbers:stationConnections"
+   * @return build map where key is "lineNumber:station" and value is array of
+   * "lineNumbers:stationConnections"
    */
   @Override
-  public Map<String, String []> getConnections(String connections_query) {
+  public Map<String, String[]> getConnections(String connections_query) {
 
-    Map<String, String []> connections = new LinkedHashMap<>();
+    Map<String, String[]> connections = new LinkedHashMap<>();
     List<String> parseConnectionsResult = parseConnections(connections_query);
 
     for (String value : parseConnectionsResult) {
       String line = value.split("!")[0];
       String[] connectionsArray = value
           .substring(value.indexOf("!")).split("<span");
-      String [] connectionsHtmlFormat = Arrays.stream(connectionsArray).filter(s -> s.length() > 1)
+      String[] connectionsHtmlFormat = Arrays.stream(connectionsArray).filter(s -> s.length() > 1)
           .map(this::getConnectionContent)
           .toArray(String[]::new);
       connections.put(line, connectionsHtmlFormat);
@@ -78,6 +79,7 @@ public class MoscowMetroParser implements Parser {
   /**
    * REGEX_NUM_NAME_STATIONS "\d+.\s[аА-яЯ]+" - stations content should look like: "9. имя станции",
    * if not take this as a separator delimiterStations usually its "Подробно о линии"
+   *
    * @return String as array, with number and station name splited by @delimiterStations
    */
   private String[] stationsContent(String cssQuery) {
@@ -143,8 +145,8 @@ public class MoscowMetroParser implements Parser {
   /**
    * @param content is string in raw view "<span class=\"t-icon-metroln ln-5\" title=\"переход на
    *                станцию «Комсомольская» Кольцевой линии\"></span>" method get number, and line
-   *                name, and
-   * String NUMBER_REGEX - remove ln- and " from a number that looks like ln-5"
+   *                name, and String NUMBER_REGEX - remove ln- and " from a number that looks like
+   *                ln-5"
    * @return string like "5:Комсомольская"  (example lineNumber and lineName)
    */
 

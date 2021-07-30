@@ -1,4 +1,4 @@
-package ParserAttribute;
+package metroAttribute;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import moscowMetro.metroUtils.parser.Parser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class MoscowMetroParserAttr {
+public class MoscowMetroAttr {
 
   private final static File htmlFIle = new File("src/test/java/testHTML/test.html");
   protected final Document testDocument = Jsoup.parse(htmlFIle, "UTF8");
@@ -44,9 +44,10 @@ public class MoscowMetroParserAttr {
       "Медведково"
   };
   private final static int NUMBER_OF_STATIONS = 35; // МЦД-2
-  protected final String[] testStationsNumbers = Stream.iterate(1, i  -> i + 1).limit(NUMBER_OF_STATIONS).map(String::valueOf).toArray(String[]::new);
+  protected final String[] testStationsNumbers = Stream.iterate(1, i -> i + 1)
+      .limit(NUMBER_OF_STATIONS).map(String::valueOf).toArray(String[]::new);
 
 
-  public MoscowMetroParserAttr() throws IOException {
+  public MoscowMetroAttr() throws IOException {
   }
 }
